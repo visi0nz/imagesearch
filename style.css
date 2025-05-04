@@ -66,6 +66,10 @@ form button:hover {
     background: rgb(219, 163, 7);
 }
 
+#search-box:focus::placeholder {
+    color: transparent; /* Makes the placeholder text invisible */
+}
+
 ::placeholder {
     color: black;
     font-size: 18px;
@@ -135,4 +139,26 @@ footer {
 
 .icon:hover {
     color: rgb(219, 163, 7);
+}
+
+/* --- Responsiveness --- */
+
+/* Adjust grid for medium screens (tablets) */
+@media (max-width: 768px) {
+    #search-result {
+        grid-template-columns: 1fr 1fr; /* 2 columns */
+        grid-gap: 20px; /* Smaller gap */
+    }
+}
+
+/* Adjust grid for small screens (mobile) */
+@media (max-width: 480px) {
+    #search-result {
+        grid-template-columns: 1fr; /* 1 column */
+        grid-gap: 15px; /* Smaller gap */
+    }
+
+    #search-result img {
+        height: 200px; /* Reduce image height for smaller screens */
+    }
 }
