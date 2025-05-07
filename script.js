@@ -58,12 +58,6 @@ async function searchImages() {
 }
 
 
-searchForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    page = 1;
-    searchImages();
-});
-
 // Add an event listener to hide the "Show More" button when the input is cleared
 searchBox.addEventListener("input", () => {
     if (searchBox.value.trim() === "") {
@@ -80,13 +74,11 @@ showMoreBtn.addEventListener("click", () => {
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     keyword = searchBox.value.trim();
-
-    // Check if the input is empty
     if (keyword === "") {
-        alert("Please enter a search term."); // Display an error message
-        return; // Stop further execution
+        alert("Please enter a search term.");
+        showMoreBtn.style.display = "none";
+        return;
     }
-
     page = 1;
     searchImages();
 });
