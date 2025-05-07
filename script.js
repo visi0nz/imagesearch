@@ -10,7 +10,7 @@ let page = 1;
 
 async function searchImages() {
     keyword = searchBox.value;
-    const url = `https://imagesearch-brown.vercel.app/api/search-images`;
+    const url = `https://imagesearch-brown.vercel.app/api/search-images?query=${keyword}&page=${page}`;
    
 
     const response = await fetch(url);
