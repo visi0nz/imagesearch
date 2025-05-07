@@ -1,4 +1,5 @@
-const accessKey = "zXSZj7wc0m-mIPzDv6wZo6396sNtkhKSuo4iBKLbdIM";
+// uses Unsplash API (https://unsplash.com/) for searching images
+
 const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
 const searchResult = document.getElementById("search-result");
@@ -9,7 +10,8 @@ let page = 1;
 
 async function searchImages() {
     keyword = searchBox.value;
-    const url = `https://api.unsplash.com/search/photos?page=${page}&query=${keyword}&client_id=${accessKey}&per_page=12`;
+    const url = `https://imagesearch-brown.vercel.app/api/search-images`;
+   
 
     const response = await fetch(url);
     const data = await response.json();
