@@ -2,15 +2,13 @@ const cors = require('cors');
 const fetch = require('node-fetch');
 require('dotenv').config();
 
-// Configure CORS to allow requests from your frontend's origin
 const corsOptions = {
-    origin: 'https://visi0nz.github.io/imagesearch/', // Replace with your GitHub Pages URL
-    methods: ['GET'], // Allow only GET requests
+    origin: 'https://visi0nz.github.io/imagesearch/', // Your GitHub Pages URL
+    methods: ['GET'],
     allowedHeaders: ['Content-Type'],
 };
 
 module.exports = async (req, res) => {
-    // Apply CORS middleware
     cors(corsOptions)(req, res, async () => {
         const { query, page = 1 } = req.query;
         const accessKey = process.env.UNSPLASH_ACCESS_KEY;
@@ -22,10 +20,18 @@ module.exports = async (req, res) => {
         try {
             const url = `https://api.unsplash.com/search/photos?page=${page}&query=${query}&client_id=${accessKey}&per_page=12`;
             const response = await fetch(url);
+            
+            // Check if the Unsplash response is OK
+            if (!response.ok) {
+                throw new Error(`Unsplash API error! Status: ${response.status}`);
+            }
+            
             const data = await response.json();
+            console.log('Unsplash API response:', data); // Log for debugging (visible in Vercel logs)
             res.json(data);
         } catch (error) {
-            res.status(500).json({ error: 'Failed to fetch images' });
+            console.error('Error fetching from Unsplash:', error);
+            res.status(500).json({ error: 'Failed to fetch images', details: error.message });
         }
     });
 };

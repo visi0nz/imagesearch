@@ -10,36 +10,53 @@ let page = 1;
 
 async function searchImages() {
     keyword = searchBox.value;
-    const url = `https://imagesearch-brown.vercel.app/api/search-images?query=${keyword}&page=${page}`;
-   
+    const url = `https://imagesearch-brown.vercel.app/api/search-images?query=${keyword}&page=${page}`; // Replace with your actual Vercel URL
 
-    const response = await fetch(url);
-    const data = await response.json();
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        // Log the response to debug
+        console.log('Response data:', data);
 
-    if (page === 1) {
-        searchResult.innerHTML = "";
-    }
+        if (page === 1) {
+            searchResult.innerHTML = "";
+        }
 
-    const results = data.results;
+        // Check if data.results exists
+        if (!data.results) {
+            console.error('No results found in response:', data);
+            showMoreBtn.style.display = "none";
+            return;
+        }
 
-    results.map((result) => {
-        const image = document.createElement("img");
-        image.src = result.urls.small;
-        const imageLink = document.createElement("a");
-        imageLink.href = result.links.html;
-        imageLink.target = "_blank";
+        const results = data.results;
 
-        imageLink.appendChild(image);
-        searchResult.appendChild(imageLink);
-    });
+        results.map((result) => {
+            const image = document.createElement("img");
+            image.src = result.urls.small;
+            const imageLink = document.createElement("a");
+            imageLink.href = result.links.html;
+            imageLink.target = "_blank";
 
-    // Show the "Show More" button only if there are results
-    if (results.length > 0) {
-        showMoreBtn.style.display = "block";
-    } else {
+            imageLink.appendChild(image);
+            searchResult.appendChild(imageLink);
+        });
+
+        if (results.length > 0) {
+            showMoreBtn.style.display = "block";
+        } else {
+            showMoreBtn.style.display = "none";
+        }
+    } catch (error) {
+        console.error('Error fetching images:', error);
         showMoreBtn.style.display = "none";
     }
 }
+
 
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
