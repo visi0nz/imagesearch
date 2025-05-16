@@ -18,6 +18,11 @@ body {
     margin-top: 40px;
 }
 
+.logo:hover {
+    filter: drop-shadow(0 0 2px rgb(219, 163, 7)) drop-shadow(0 0 2px rgb(219, 163, 7));
+    transition: 0.3s ease;
+}
+
 h1 {
     font-family: "Pattaya", sans-serif;
     font-size: 3.5rem;
